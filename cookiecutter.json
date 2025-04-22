@@ -1,0 +1,8 @@
+{
+    "project_name": "project",
+    "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
+    "redis": true,
+    "celery": true,
+    "rabbitmq": true,
+    "add_readme": true
+}
