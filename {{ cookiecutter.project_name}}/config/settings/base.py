@@ -58,6 +58,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
+{%- if cookiecutter.database == "postgresql" %}
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -67,6 +68,14 @@ DATABASES = {
         'HOST': config('DB_HOST', '127.0.0.1'),
         'PORT': config('DB_PORT', 5432),
     }, }
+{%- elif cookiecutter.database == "sqlite3" %}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / "db.sqlite3",
+    }
+}
+{%- endif %}
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
