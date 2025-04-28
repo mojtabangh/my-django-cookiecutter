@@ -1,0 +1,59 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16
+    container_name: {{cookiecutter.project_slug}}-db
+    ports:
+      - 5432:5432
+    environment:
+      environment:
+      - CELERY_BROKER_URL=${CELERY_BROKER_URL}
+      - REDIS_LOCATION=${REDIS_LOCATION}
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=${DEBUG}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+    volumes:
+      - {{cookiecutter.project_slug}}-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${DB_USER}", "-d", "${DB_NAME}", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+      image: dpage/pgadmin4
+      container_name: {{cookiecutter.project_slug}}-pgadmin4
+      restart: always
+      environment:
+        PGADMIN_DEFAULT_EMAIL: admin@admin.com
+        PGADMIN_DEFAULT_PASSWORD: 'pg_pass'
+      ports:
+        - 5050:80
+      depends_on:
+        - db
+    
+  redis:
+    image: redis:7.4
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-data:/data
+
+  rabbitmq:
+    image: "rabbitmq:alpine"
+    ports:
+      - 5672:5672
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+volumes:
+  {{cookiecutter.project_slug}}-data:
+  redis-data:
