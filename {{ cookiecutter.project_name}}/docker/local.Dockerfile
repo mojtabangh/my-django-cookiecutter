@@ -12,4 +12,4 @@ RUN pip install -r requirements.txt
 WORKDIR /app
 
 # Copy the Django app's source code to the container
-COPY src/ /app/
+COPY {{cookiecutter.project_slug}}/ /app/
