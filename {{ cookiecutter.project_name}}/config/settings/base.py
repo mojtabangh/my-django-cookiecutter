@@ -15,6 +15,7 @@ ALLOWED_HOSTS = []
 # Application definition
 LOCAL_APPS = [
     '{{cookiecutter.project_slug}}.common.apps.CommonConfig',
+    '{{cookiecutter.project_slug}}.api.apps.ApiConfig',
 ]
 
 INSTALLED_APPS = [
