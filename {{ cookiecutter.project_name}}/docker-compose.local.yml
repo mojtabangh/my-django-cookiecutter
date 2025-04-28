@@ -46,7 +46,7 @@ services:
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
     volumes:
-      - ./src:/app
+      - ./:/app
     ports:
       - "8000:8000"
     depends_on:
